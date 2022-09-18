@@ -10,7 +10,7 @@ import com.example.javaPracticalTest.dto.UsersDto;
 import com.example.javaPracticalTest.entity.Users;
 import com.example.javaPracticalTest.exception.EntityDoesNotExistException;
 import com.example.javaPracticalTest.exception.IncorrectInputDateException;
-import com.example.javaPracticalTest.exception.IncorrectUserAgeException;
+import com.example.javaPracticalTest.exception.IncorrectUsersAgeException;
 import com.example.javaPracticalTest.mapper.UsersMapper;
 import com.example.javaPracticalTest.mapper.impl.UsersMapperImpl;
 import com.example.javaPracticalTest.repository.UsersRepository;
@@ -46,6 +46,7 @@ public class UsersServiceImplTest {
     var usersDto = UsersDto.builder()
         .firstName("Vlad")
         .lastName("Slupko")
+        .email("w@w.w")
         .address("Washington DC")
         .birthDate(Date.valueOf("2001-01-01"))
         .phoneNumber("+44444444")
@@ -54,13 +55,14 @@ public class UsersServiceImplTest {
         .id(1L)
         .firstName("Vlad")
         .lastName("Slupko")
+        .email("w@w.w")
         .address("Washington DC")
         .birthDate(Date.valueOf("2001-01-01"))
         .phoneNumber("+44444444")
         .build();
     when(repository.save(any())).thenReturn(expected);
     when(config.getUsersAge()).thenReturn("18");
-    var actual = service.createUser(usersDto);
+    var actual = service.createUsers(usersDto);
 
 
     assertEquals(expected.getId(), actual.getId());
@@ -76,13 +78,14 @@ public class UsersServiceImplTest {
     var usersDto = UsersDto.builder()
         .firstName("Vlad")
         .lastName("Slupko")
+        .email("w@w.w")
         .address("Washington DC")
         .birthDate(Date.valueOf("2010-01-01"))
         .phoneNumber("+44444444")
         .build();
     when(config.getUsersAge()).thenReturn("18");
 
-    assertThrows(IncorrectUserAgeException.class, () -> service.createUser(usersDto));
+    assertThrows(IncorrectUsersAgeException.class, () -> service.createUsers(usersDto));
   }
 
   @Test
@@ -90,13 +93,14 @@ public class UsersServiceImplTest {
     var usersDto = UsersDto.builder()
         .firstName("Vlad")
         .lastName("Slupko")
+        .email("w@w.w")
         .address("Washington DC")
         .birthDate(Date.valueOf("2022-09-20"))
         .phoneNumber("+44444444")
         .build();
     when(config.getUsersAge()).thenReturn("18");
 
-    assertThrows(IncorrectInputDateException.class, () -> service.createUser(usersDto));
+    assertThrows(IncorrectInputDateException.class, () -> service.createUsers(usersDto));
   }
 
   @Test
@@ -104,6 +108,7 @@ public class UsersServiceImplTest {
     var usersDto = UsersDto.builder()
         .firstName("Vlad")
         .lastName("Slupko")
+        .email("w@w.w")
         .address("Washington DC")
         .birthDate(Date.valueOf("2001-01-01"))
         .phoneNumber("+44444444")
@@ -113,6 +118,7 @@ public class UsersServiceImplTest {
         .id(1L)
         .firstName("Vladislav")
         .lastName("Slupko")
+        .email("w@w.w")
         .address("Washington DC 1")
         .birthDate(Date.valueOf("2001-01-01"))
         .phoneNumber("+555555")
@@ -120,6 +126,6 @@ public class UsersServiceImplTest {
     when(repository.save(any())).thenReturn(expected);
     when(config.getUsersAge()).thenReturn("18");
 
-    assertThrows(EntityDoesNotExistException.class, () -> service.updateUser(usersDto, 2L));
+    assertThrows(EntityDoesNotExistException.class, () -> service.updateUsers(usersDto, 2L));
   }
 }
